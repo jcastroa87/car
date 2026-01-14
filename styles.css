@@ -1,0 +1,392 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive, sans-serif;
+    background: #1a1a2e;
+}
+
+#game-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#game-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+#game-canvas canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Pantalla de inicio */
+#start-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    animation: fadeIn 0.5s ease;
+}
+
+#start-screen.hidden {
+    display: none;
+}
+
+.start-content {
+    text-align: center;
+    color: white;
+}
+
+.start-content h1 {
+    font-size: 100px;
+    margin-bottom: 10px;
+    animation: bounce 1s infinite;
+}
+
+.start-content h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+}
+
+.start-content .subtitle {
+    font-size: 18px;
+    opacity: 0.9;
+    margin-bottom: 30px;
+}
+
+#start-button {
+    background: linear-gradient(145deg, #4ade80, #22c55e);
+    border: none;
+    padding: 20px 50px;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4),
+                inset 0 2px 10px rgba(255,255,255,0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+}
+
+#start-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+}
+
+/* Controles */
+#controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    min-height: 140px;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    pointer-events: none;
+    z-index: 50;
+}
+
+.control-group {
+    display: flex;
+    gap: 10px;
+    pointer-events: auto;
+}
+
+.direction-controls {
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.speed-controls {
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.control-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+/* Botones de dirección */
+.control-btn.direction {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(145deg, #60a5fa, #3b82f6);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5),
+                inset 0 2px 10px rgba(255,255,255,0.2);
+}
+
+.control-btn.direction .btn-icon {
+    font-size: 40px;
+}
+
+.control-btn.direction:active,
+.control-btn.direction.pressed {
+    transform: scale(0.92);
+    background: linear-gradient(145deg, #2563eb, #1d4ed8);
+    box-shadow: 0 3px 10px rgba(59, 130, 246, 0.5);
+}
+
+/* Botones de gas/freno */
+.control-btn.brake,
+.control-btn.gas {
+    width: 100px;
+    height: 100px;
+}
+
+.control-btn .btn-icon {
+    font-size: 40px;
+    margin-bottom: 5px;
+}
+
+.control-btn .btn-text {
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    font-family: inherit;
+}
+
+/* Botón de freno (rojo) */
+.control-btn.brake {
+    background: linear-gradient(145deg, #ff6b6b, #ee5a5a);
+    box-shadow: 0 8px 25px rgba(238, 90, 90, 0.5),
+                inset 0 2px 10px rgba(255,255,255,0.2);
+}
+
+.control-btn.brake:active,
+.control-btn.brake.pressed {
+    transform: scale(0.92);
+    background: linear-gradient(145deg, #dc2626, #b91c1c);
+    box-shadow: 0 4px 12px rgba(238, 90, 90, 0.5);
+}
+
+/* Botón de acelerar (verde) */
+.control-btn.gas {
+    background: linear-gradient(145deg, #4ade80, #22c55e);
+    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.5),
+                inset 0 2px 10px rgba(255,255,255,0.2);
+}
+
+.control-btn.gas:active,
+.control-btn.gas.pressed {
+    transform: scale(0.92);
+    background: linear-gradient(145deg, #16a34a, #15803d);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.5);
+}
+
+/* Velocímetro análogo */
+#speedometer {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    width: 120px;
+    height: 120px;
+    z-index: 50;
+}
+
+.speedometer-bg {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #2a2a3a, #1a1a2e);
+    border-radius: 50%;
+    border: 4px solid #444;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5),
+                inset 0 2px 10px rgba(0,0,0,0.5),
+                inset 0 -2px 10px rgba(255,255,255,0.1);
+}
+
+.speed-marks {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.speed-marks .mark {
+    position: absolute;
+    left: 50%;
+    top: 12px;
+    font-size: 10px;
+    font-weight: bold;
+    color: #fff;
+    transform-origin: 0 48px;
+    transform: translateX(-50%) rotate(var(--angle)) translateY(0);
+    text-shadow: 0 0 3px rgba(0,0,0,0.8);
+}
+
+.speed-marks .mark::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 14px;
+    width: 2px;
+    height: 8px;
+    background: #ff4444;
+    transform: translateX(-50%);
+}
+
+.needle-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 4px;
+    height: 45px;
+    transform-origin: 50% 100%;
+    transform: translate(-50%, -100%) rotate(-120deg);
+    transition: transform 0.15s ease-out;
+}
+
+.needle {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, #ff4444, #ff6666);
+    clip-path: polygon(30% 100%, 70% 100%, 55% 0%, 45% 0%);
+    box-shadow: 0 0 5px rgba(255, 68, 68, 0.5);
+}
+
+.speedometer-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    background: radial-gradient(circle, #666, #333);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #888;
+}
+
+#speed-value {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+    font-weight: bold;
+    color: #4ade80;
+    text-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+    font-family: 'Courier New', monospace;
+}
+
+.speed-unit {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 9px;
+    color: #888;
+    font-weight: bold;
+}
+
+/* Animaciones */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Responsive */
+@media (max-height: 500px) {
+    #controls {
+        height: 35%;
+        padding: 10px;
+    }
+    
+    .control-btn.direction {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .control-btn.direction .btn-icon {
+        font-size: 28px;
+    }
+    
+    .control-btn.brake,
+    .control-btn.gas {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .control-btn .btn-icon {
+        font-size: 32px;
+    }
+    
+    .control-btn .btn-text {
+        font-size: 12px;
+    }
+    
+    .start-content h1 {
+        font-size: 70px;
+    }
+    
+    .start-content h2 {
+        font-size: 22px;
+    }
+    
+    #speed-indicator {
+        width: 140px;
+        height: 28px;
+        top: 10px;
+    }
+    
+    #speed-emoji {
+        font-size: 16px;
+    }
+}
+
+/* Landscape en móvil */
+@media (orientation: landscape) and (max-height: 450px) {
+    #controls {
+        height: 40%;
+        min-height: 100px;
+    }
+    
+    .control-btn.direction {
+        width: 75px;
+        height: 75px;
+    }
+    
+    .control-btn.brake,
+    .control-btn.gas {
+        width: 75px;
+        height: 75px;
+    }
+}
+
+

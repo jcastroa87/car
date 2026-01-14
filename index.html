@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>🚗 Juego de Carros 3D</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <div id="game-container">
+        <div id="game-canvas"></div>
+        
+        <!-- Pantalla de inicio -->
+        <div id="start-screen">
+            <div class="start-content">
+                <h1>🚗</h1>
+                <h2>¡Vamos a Conducir!</h2>
+                <p class="subtitle">Versión 3D</p>
+                <button id="start-button">▶ JUGAR</button>
+            </div>
+        </div>
+        
+        <!-- Controles táctiles -->
+        <div id="controls">
+            <!-- Controles de dirección (izquierda) -->
+            <div class="control-group direction-controls">
+                <button id="left-btn" class="control-btn direction left">
+                    <span class="btn-icon">⬅️</span>
+                </button>
+                <button id="right-btn" class="control-btn direction right">
+                    <span class="btn-icon">➡️</span>
+                </button>
+            </div>
+            
+            <!-- Controles de velocidad (derecha) -->
+            <div class="control-group speed-controls">
+                <button id="brake-btn" class="control-btn brake">
+                    <span class="btn-icon">🛑</span>
+                    <span class="btn-text">FRENO</span>
+                </button>
+                <button id="gas-btn" class="control-btn gas">
+                    <span class="btn-icon">🚀</span>
+                    <span class="btn-text">¡GAS!</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Velocímetro análogo -->
+        <div id="speedometer">
+            <div class="speedometer-bg">
+                <div class="speed-marks">
+                    <span class="mark" style="--angle: -120deg">0</span>
+                    <span class="mark" style="--angle: -80deg">20</span>
+                    <span class="mark" style="--angle: -40deg">40</span>
+                    <span class="mark" style="--angle: 0deg">60</span>
+                    <span class="mark" style="--angle: 40deg">80</span>
+                    <span class="mark" style="--angle: 80deg">100</span>
+                    <span class="mark" style="--angle: 120deg">120</span>
+                </div>
+                <div class="needle-container">
+                    <div id="speed-needle" class="needle"></div>
+                </div>
+                <div class="speedometer-center"></div>
+                <div id="speed-value">0</div>
+                <div class="speed-unit">km/h</div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="game3d.js"></script>
+</body>
+</html>
