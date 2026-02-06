@@ -8,70 +8,60 @@
     <meta name="mobile-web-app-capable" content="yes">
     <title>🚗 Juego de Carros 3D</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
     <div id="game-container">
         <div id="game-canvas"></div>
-        
+
         <!-- Pantalla de inicio -->
         <div id="start-screen">
             <div class="start-content">
                 <h1>🚗</h1>
                 <h2>¡Vamos a Conducir!</h2>
-                <p class="subtitle">Versión 3D</p>
+
+                <!-- Selector de color -->
+                <div id="color-picker">
+                    <div class="color-option selected" data-color="0xFF4444" style="background:#FF4444"></div>
+                    <div class="color-option" data-color="0x4488FF" style="background:#4488FF"></div>
+                    <div class="color-option" data-color="0xFFCC00" style="background:#FFCC00"></div>
+                    <div class="color-option" data-color="0x44CC44" style="background:#44CC44"></div>
+                    <div class="color-option" data-color="0xFF66CC" style="background:#FF66CC"></div>
+                    <div class="color-option" data-color="0xFF8800" style="background:#FF8800"></div>
+                </div>
+
                 <button id="start-button">▶ JUGAR</button>
             </div>
         </div>
-        
+
         <!-- Controles táctiles -->
         <div id="controls">
-            <!-- Controles de dirección (izquierda) -->
-            <div class="control-group direction-controls">
-                <button id="left-btn" class="control-btn direction left">
-                    <span class="btn-icon">⬅️</span>
-                </button>
-                <button id="right-btn" class="control-btn direction right">
-                    <span class="btn-icon">➡️</span>
-                </button>
+            <div id="touch-left" class="touch-zone">
+                <span class="zone-arrow">⬅️</span>
             </div>
-            
-            <!-- Controles de velocidad (derecha) -->
-            <div class="control-group speed-controls">
-                <button id="brake-btn" class="control-btn brake">
-                    <span class="btn-icon">🛑</span>
-                    <span class="btn-text">FRENO</span>
-                </button>
-                <button id="gas-btn" class="control-btn gas">
-                    <span class="btn-icon">🚀</span>
-                    <span class="btn-text">¡GAS!</span>
-                </button>
+            <div id="controls-center">
+                <div id="touch-horn" class="horn-btn">
+                    <span class="horn-icon">📯</span>
+                </div>
+                <div id="touch-brake" class="touch-zone-brake">
+                    <span class="brake-icon">🛑</span>
+                </div>
+            </div>
+            <div id="touch-right" class="touch-zone">
+                <span class="zone-arrow">➡️</span>
             </div>
         </div>
-        
-        <!-- Velocímetro análogo -->
-        <div id="speedometer">
-            <div class="speedometer-bg">
-                <div class="speed-marks">
-                    <span class="mark" style="--angle: -120deg">0</span>
-                    <span class="mark" style="--angle: -80deg">20</span>
-                    <span class="mark" style="--angle: -40deg">40</span>
-                    <span class="mark" style="--angle: 0deg">60</span>
-                    <span class="mark" style="--angle: 40deg">80</span>
-                    <span class="mark" style="--angle: 80deg">100</span>
-                    <span class="mark" style="--angle: 120deg">120</span>
-                </div>
-                <div class="needle-container">
-                    <div id="speed-needle" class="needle"></div>
-                </div>
-                <div class="speedometer-center"></div>
-                <div id="speed-value">0</div>
-                <div class="speed-unit">km/h</div>
-            </div>
+
+        <!-- UI simplificada -->
+        <div id="score-display">
+            <span id="score-stars">⭐</span>
+            <span id="score-number">0</span>
         </div>
+
+        <!-- Indicador de tiempo del día -->
+        <div id="time-display"></div>
     </div>
-    
+
     <script src="game3d.js"></script>
 </body>
 </html>
