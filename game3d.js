@@ -1263,6 +1263,7 @@ class CarGame3D {
         const hornBtn = document.getElementById('touch-horn');
 
         const setup = (btn, key) => {
+            if (!btn) return;
             ['touchstart', 'mousedown'].forEach(e => {
                 btn.addEventListener(e, (ev) => {
                     ev.preventDefault();
@@ -1283,18 +1284,20 @@ class CarGame3D {
         setup(brakeZone, 'braking');
 
         // Bocina
-        ['touchstart', 'mousedown'].forEach(e => {
-            hornBtn.addEventListener(e, (ev) => {
-                ev.preventDefault();
-                hornBtn.classList.add('pressed');
-                this.initAudio();
-                this.playHornSound();
-                if (navigator.vibrate) navigator.vibrate(80);
+        if (hornBtn) {
+            ['touchstart', 'mousedown'].forEach(e => {
+                hornBtn.addEventListener(e, (ev) => {
+                    ev.preventDefault();
+                    hornBtn.classList.add('pressed');
+                    this.initAudio();
+                    this.playHornSound();
+                    if (navigator.vibrate) navigator.vibrate(80);
+                });
             });
-        });
-        ['touchend', 'touchcancel', 'mouseup', 'mouseleave'].forEach(e => {
-            hornBtn.addEventListener(e, () => hornBtn.classList.remove('pressed'));
-        });
+            ['touchend', 'touchcancel', 'mouseup', 'mouseleave'].forEach(e => {
+                hornBtn.addEventListener(e, () => hornBtn.classList.remove('pressed'));
+            });
+        }
 
         // Teclado
         const keys = {
@@ -1370,6 +1373,7 @@ class CarGame3D {
     setupStartScreen() {
         const startScreen = document.getElementById('start-screen');
         const startButton = document.getElementById('start-button');
+        if (!startScreen || !startButton) return;
         const startGame = (e) => {
             e.preventDefault();
             startScreen.classList.add('hidden');
